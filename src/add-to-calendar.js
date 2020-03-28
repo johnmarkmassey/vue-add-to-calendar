@@ -3,11 +3,12 @@ import AddToCalendarMixin from './add-to-calendar-mixin';
 export const calendars = {
   google: {
     url: 'http://www.google.com/calendar/event?action=TEMPLATE&trp=false',
-    parameters (title, location, details, start, end) {
+    parameters (title, location, details, start, end, guest) {
       const parameters = {
         text: title,
         location: location,
-        details: details
+        details: details,
+        add: guest
       };
 
       if (start && end) {
@@ -77,6 +78,14 @@ export default {
     end: {
       type: Date,
       default: null
+    },
+    /**
+     * Guest e-mail address.
+     * @var string
+     */
+    add: {
+      type: String,
+      default: ''
     }
   },
 
@@ -103,7 +112,8 @@ export default {
         this.formatString(this.location),
         this.formatString(this.details),
         this.formatDate(this.start),
-        this.formatDate(this.end)
+        this.formatDate(this.end),
+        this.formatString(this.add)
       );
 
       for (const key in parameters) {
